@@ -21,7 +21,7 @@ namespace example2
             PrintMatrix(adjacencyMatrix);
 
             //Получает количество вершин графа из размера массива `adjacencyMatrix`.
-            numNodes = adjacencyMatrix.GetLength(0);
+          //  numNodes = adjacencyMatrix.GetLength(0);
             //Создает одномерный массив `isolatedNodes` с помощью метода `FindIsolatedNodes`, который принимает `adjacencyMatrix` в качестве аргумента и возвращает изолированные вершины графа
             int[] isolatedNodes = FindIsolatedNodes(adjacencyMatrix);
             //Создает одномерный массив `terminalNodes` с помощью метода `FindTerminalNodes`, который принимает `adjacencyMatrix` в качестве аргумента и возвращает концевые вершины графа
@@ -29,7 +29,10 @@ namespace example2
             //Создает одномерный массив `dominatingNodes` с помощью метода `FindDominatingNodes`, который принимает `adjacencyMatrix` в качестве аргумента и возвращает доминирующие вершины графа
             int[] dominatingNodes = FindDominatingNodes(adjacencyMatrix);
 
-            Console.WriteLine("Размер графа: " + numNodes);
+            int findSize = FindSizeGraph(adjacencyMatrix);
+
+            //  Console.WriteLine("Размер графа: " + numNodes);
+            Console.WriteLine("Рамер графа: " + findSize);
             Console.WriteLine("Изолированные вершины: " + string.Join(", ", isolatedNodes));
             Console.WriteLine("Концевые вершины: " + string.Join(", ", leafyNodes));
             Console.WriteLine("Доминирующие вершины: " + string.Join(", ", dominatingNodes));
@@ -116,7 +119,7 @@ namespace example2
                 int count = 0;
 
                 for (int j = 0; j < numNodes; j++)
-                { 
+                {
                     if (matrix[i, j] == 1 || matrix[j, i] == 1)
                     {
                         count++;
@@ -140,11 +143,30 @@ namespace example2
             return leafyNodes.ToArray();
         }
 
-        //Метод FindDominatingNodes находит доминирующие узлы в матрице смежности.
-        //Метод перебирает каждый узел в матрице и проверяет, есть ли у него ребра с каждым другим узлом, кроме самого себя.
-        //Если есть, то текущий узел считается доминирующим и добавляется в список dominatingNodes.
-        //Возвращается массив доминирующих узлов.
-        static int[] FindDominatingNodes(int[,] matrix)
+        //Метод находит количество единиц в матрице(поделенное на 2)
+        static int FindSizeGraph(int[,] matrix)
+        {
+            int numNodes = matrix.GetLength(0);
+            int count = 0;
+
+            for (int i = 0; i < numNodes; i++)
+            {
+                for (int j = 0; j < numNodes; j++)
+                {
+                    if (matrix[i, j] == 1)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count / 2;
+        }
+
+//Метод FindDominatingNodes находит доминирующие узлы в матрице смежности.
+//Метод перебирает каждый узел в матрице и проверяет, есть ли у него ребра с каждым другим узлом, кроме самого себя.
+//Если есть, то текущий узел считается доминирующим и добавляется в список dominatingNodes.
+//Возвращается массив доминирующих узлов.
+static int[] FindDominatingNodes(int[,] matrix)
         {
             int numNodes = matrix.GetLength(0);
             List<int> dominatingNodes = new List<int>();
